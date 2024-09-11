@@ -2,26 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+* {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  scroll-behavior: smooth;
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .wrapper {
+    /* px-2 md:px-4 py-6 lg:px-6 lg:mx-auto w-full*/
+    @apply w-full max-w-[1596px] mx-auto;
+  }
+
+  .input-class {
+    @apply border border-[#808A93] rounded-[6px] px-[10px] py-3 ring-0 !important;
+  }
+
+  .form-message {
+    @apply text-[12px] text-red-500;
   }
 }
