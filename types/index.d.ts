@@ -14,4 +14,8 @@ declare interface CustomProps {
   children?: React.ReactNode;
   renderSkeleton?: (field: any) => React.ReactNode;
   fieldType: FormFieldType;
+  radioGroupValues?: {
+    id: number;
+    name: string;
+  }[];
 }

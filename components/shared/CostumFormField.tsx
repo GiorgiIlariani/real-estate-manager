@@ -1,8 +1,7 @@
 /* eslint-disable no-unused-vars */
 import Image from "next/image";
 
-import { Control } from "react-hook-form";
-import { Checkbox } from "../ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 import {
   FormControl,
@@ -26,7 +25,7 @@ import { Textarea } from "../ui/textarea";
 export enum FormFieldType {
   INPUT = "input",
   TEXTAREA = "textarea",
-  CHECKBOX = "checkbox",
+  RADIO = "radio",
   SELECT = "select",
   SKELETON = "skeleton",
 }
@@ -73,19 +72,25 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
           />
         </FormControl>
       );
-    case FormFieldType.CHECKBOX:
+    case FormFieldType.RADIO:
       return (
         <FormControl>
-          <div className="flex items-center gap-4">
-            <Checkbox
-              id={props.name}
-              checked={field.value}
-              onCheckedChange={field.onChange}
-            />
-            <label htmlFor={props.name} className="checkbox-label">
-              {props.label}
-            </label>
-          </div>
+          <RadioGroup
+            defaultValue="იყიდება"
+            className="flex items-center gap-8">
+            {props.radioGroupValues?.map((item) => {
+              return (
+                <div className="flex items-center space-x-2" key={item.id}>
+                  <RadioGroupItem value={item.name} id={item.name} />
+                  <label
+                    htmlFor={item.name}
+                    className="text-base text-semibold">
+                    {item.name}
+                  </label>
+                </div>
+              );
+            })}
+          </RadioGroup>
         </FormControl>
       );
     case FormFieldType.SELECT:
@@ -119,7 +124,7 @@ const CustomFormField = (props: CustomProps) => {
       name={name}
       render={({ field }) => (
         <FormItem className="flex-1">
-          {props.fieldType !== FormFieldType.CHECKBOX && label && (
+          {props.fieldType !== FormFieldType.RADIO && label && (
             <FormLabel className="font-normal text-black text-base">
               {label}
             </FormLabel>

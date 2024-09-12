@@ -6,17 +6,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Separator } from "@/components/ui/separator";
-import { useRouter } from "next/navigation";
 import { AddListingFormSchema } from "@/lib/validation";
 import CustomFormField, { FormFieldType } from "../shared/CostumFormField";
+import { transactionTypeConstants } from "@/constants";
 
 const AddListingForm = () => {
   // 1. Define your form.
   const form = useForm<z.infer<typeof AddListingFormSchema>>({
     resolver: zodResolver(AddListingFormSchema),
     defaultValues: {
+      transactionType: "იყიდება",
       location: "",
       region: "",
       postalIndex: "",
@@ -40,7 +39,14 @@ const AddListingForm = () => {
           {/* გარიგების ტიპი */}
           <section className="flex flex-col gap-[22px]">
             <h4 className="text-base font-normal text-left">გარიგების ტიპი</h4>
-            <div></div>
+
+            <CustomFormField
+              fieldType={FormFieldType.RADIO}
+              control={form.control}
+              name="transactionType"
+              error={error.location}
+              radioGroupValues={transactionTypeConstants}
+            />
           </section>
 
           {/* მისამართი */}
