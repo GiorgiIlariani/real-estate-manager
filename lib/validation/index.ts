@@ -20,7 +20,7 @@ export const AddListingFormSchema = z.object({
 export const AddAgentFormSchema = z.object({
    name: z.string().min(1, "name is required"),
    username: z.string().min(1, "username is required"),
-   gmail: z.string().email(),
+   email: z.string().email(),
    phone_number: z.string(),
    image: z.string(),
 })

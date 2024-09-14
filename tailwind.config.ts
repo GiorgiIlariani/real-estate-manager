@@ -9,6 +9,9 @@ const config: Config = {
   ],
   theme: {
   	extend: {
+		 boxShadow: {
+        	'custom': '5px 5px 12px 0px rgba(2, 21, 38, 0.08)',
+         },
   		// colors: {
   		// 	background: 'hsl(var(--background))',
   		// 	foreground: 'hsl(var(--foreground))',
