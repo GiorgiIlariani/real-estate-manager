@@ -28,9 +28,6 @@ const AddAgentForm = () => {
 
   return (
     <main className="flex flex-col">
-      <h1 className="text-[#021526] font-medium text-[32px] text-center mt-[62px]">
-        აგენტის დამატება
-      </h1>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
