@@ -1,19 +1,19 @@
 import { RemoveAppartmentModal } from "@/components/shared/RemoveAppartmentModal";
-import { Button } from "@/components/ui/button";
+import SimilarApartments from "@/components/shared/SimilarApartments";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 
 const EachApartment = ({ params }: { params: { id: string } }) => {
+  console.log(params.id);
+
   return (
-    <main className="wrapper">
+    <main className="wrapper pt-16 pb-[228px]">
       <Link href="/">
         <Image
           src="/assets/icons/go-back.png"
           alt="location"
           width={20}
           height={20}
-          className="mt-16"
         />
       </Link>
 
@@ -28,7 +28,7 @@ const EachApartment = ({ params }: { params: { id: string } }) => {
               className=""
             />
 
-            <p className="text-[#808A93] text-base text-center mt-3">
+            <p className="text-[#808A93] text-base text-center mt-[14px]">
               გამოქვეყნების თარიღი 08/08/24
             </p>
           </div>
@@ -98,15 +98,16 @@ const EachApartment = ({ params }: { params: { id: string } }) => {
                     <p className="text-sm text-[#676E76]">აგენტი</p>
                   </div>
                 </div>
+
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center gap-1">
                     <Image
                       src="/assets/icons/email.png"
                       alt="email"
-                      width={20}
-                      height={20}
+                      width={16}
+                      height={13}
                     />
-                    <p className="text-base text-[#808A93]">
+                    <p className="text-sm text-[#808A93]">
                       sophio.gelovani@redberry.ge
                     </p>
                   </div>
@@ -114,10 +115,10 @@ const EachApartment = ({ params }: { params: { id: string } }) => {
                     <Image
                       src="/assets/icons/phone-number.png"
                       alt="phone number"
-                      width={20}
-                      height={20}
+                      width={13}
+                      height={13}
                     />
-                    <p className="text-base text-[#808A93]">577 777 777</p>
+                    <p className="text-sm text-[#808A93]">577 777 777</p>
                   </div>
                 </div>
               </div>
@@ -125,6 +126,14 @@ const EachApartment = ({ params }: { params: { id: string } }) => {
               <RemoveAppartmentModal />
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* similar blogs */}
+      <div className="mt-[53px]">
+        <h3 className="text-[32px] font-medium">ბინები მსგავს ლოკაციაზე</h3>
+        <div className="w-full mt-[52px] relative">
+          <SimilarApartments />
         </div>
       </div>
     </main>

@@ -7,22 +7,19 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { Button } from "../ui/button";
 import AddAgentForm from "../forms/AddAgentForm";
 import { AiOutlinePlus } from "react-icons/ai";
 
 export function AddAgentModal() {
   return (
     <Dialog>
-      <DialogTrigger>
-        <Button className="bg-transparent text-[#F93B1D] border border-[#F93B1D] px-[10px] py-4 rounded-[10px] font-medium text-base gap-[2px]">
-          <AiOutlinePlus /> აგენტის დამატება
-        </Button>
+      <DialogTrigger className="bg-transparent text-[#F93B1D] border border-[#F93B1D] px-[10px] py-2 rounded-[10px] font-medium text-base gap-[2px] flex items-center">
+        <AiOutlinePlus /> აგენტის დამატება
       </DialogTrigger>
-      <DialogContent className="bg-white min-w-[1009px] flex flex-col rounded-[20px] py-[58px] px-[105px]">
-        <DialogHeader className="text-[#021526] font-medium text-[32px] text-center mt-[62px]">
+      <DialogContent className="bg-white min-w-[1009px] max-h-[784px] flex flex-col rounded-[20px] px-[81px] gap-[61px] py-[63px]">
+        <h1 className="text-[#021526] font-medium text-[32px] text-center">
           აგენტის დამატება
-        </DialogHeader>
+        </h1>
         <AddAgentForm />
       </DialogContent>
     </Dialog>

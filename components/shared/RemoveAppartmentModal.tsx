@@ -12,8 +12,8 @@ import { Button } from "../ui/button";
 export function RemoveAppartmentModal() {
   return (
     <Dialog>
-      <DialogTrigger className="text-[#676E76] px-[10px] rounded-[8px] mt-5 cursor-pointer border">
-        <Button>ლისტინგის წაშლა</Button>
+      <DialogTrigger className="text-[#676E76] text-xs p-[10px] rounded-[8px] mt-5 cursor-pointer border w-max">
+        ლისტინგის წაშლა
       </DialogTrigger>
       <DialogContent className="bg-white min-w-[623px] flex flex-col rounded-[20px] py-[58px] px-[150px]">
         <DialogHeader className="text-xl text-[#2D3648]">

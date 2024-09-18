@@ -8,8 +8,13 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 
 import CustomFormField, { FormFieldType } from "../shared/CostumFormField";
+import { AddAgent } from "@/lib/actions";
+import { useState } from "react";
+import { url } from "@/lib/utils";
 
 const AddAgentForm = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof AddAgentFormSchema>>({
     resolver: zodResolver(AddAgentFormSchema),
@@ -18,11 +23,28 @@ const AddAgentForm = () => {
       username: "",
       email: "",
       phone_number: "",
-      image: "",
+      image: undefined,
     },
+    // mode: "onChange",
   });
+
   // 2. Define a submit handler.
-  const onSubmit = async (data: z.infer<typeof AddAgentFormSchema>) => {};
+  const onSubmit = async (values: z.infer<typeof AddAgentFormSchema>) => {
+    console.log({ values });
+
+    try {
+      setIsLoading(true);
+      const status = await AddAgent(values);
+
+      if (status === 201) {
+        form.reset();
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const error = form.formState.errors;
 
@@ -31,7 +53,7 @@ const AddAgentForm = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-[28px] flex flex-col gap-20 mt-[61px]">
+          className="flex flex-col gap-[28px]">
           <div className="flex gap-5">
             <CustomFormField
               fieldType={FormFieldType.INPUT}
@@ -39,6 +61,7 @@ const AddAgentForm = () => {
               name="name"
               error={error.name}
               label="სახელი*"
+              bottomText="მინიმუმ ორი სიმბოლო"
             />
             <CustomFormField
               fieldType={FormFieldType.INPUT}
@@ -46,6 +69,7 @@ const AddAgentForm = () => {
               name="username"
               error={error.username}
               label="გვარი*"
+              bottomText="მინიმუმ ორი სიმბოლო"
             />
           </div>
 
@@ -56,6 +80,7 @@ const AddAgentForm = () => {
               name="email"
               error={error.email}
               label="ელ.ფოსტა*"
+              bottomText="გამოიყენეთ @redberry.ge ფოსტა"
             />
             <CustomFormField
               fieldType={FormFieldType.INPUT}
@@ -63,16 +88,28 @@ const AddAgentForm = () => {
               name="phone_number"
               error={error.phone_number}
               label="ტელეფონის ნომერი*"
+              bottomText="მხოლოდ რიცხვები"
             />
           </div>
 
-          <div className="w-full flex justify-end">
+          <div className="w-full">
+            <CustomFormField
+              fieldType={FormFieldType.FILE}
+              control={form.control}
+              name="image"
+              error={error.image}
+              label="ატვირთეთ ფოტო*"
+              setValue={form.setValue}
+            />
+          </div>
+
+          <div className="w-full flex justify-end mt-[66px]">
             <div className="flex gap-[15px]">
               <Button className="bg-transparent text-[#F93B1D] border border-[#F93B1D] px-[10px] py-4 rounded-[10px] font-normal text-base">
                 გაუქმება
               </Button>
               <Button className="bg-[#F93B1D] text-white border border-[#F93B1D] px-[10px] py-4 rounded-[10px] font-normal text-base">
-                დაამატე აგენტი
+                {isLoading ? "ემატება..." : "დაამატე აგენტი"}
               </Button>
             </div>
           </div>

@@ -5,4 +5,4 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export const url = "https://api.real-estate-manager.redberryinternship.ge/api/"; 
+export const url = "https://api.real-estate-manager.redberryinternship.ge/api"; 
