@@ -9,7 +9,11 @@ import { Navigation } from "swiper/modules";
 import Card from "@/components/shared/Card";
 import Image from "next/image";
 
-const SimilarApartments = () => {
+const SimilarApartments = ({
+  similarRealEstates,
+}: {
+  similarRealEstates: RealEstateListing[];
+}) => {
   return (
     <>
       <div className="flex items-center gap-x-4">
@@ -59,21 +63,11 @@ const SimilarApartments = () => {
             spaceBetween: 20,
           },
         }}>
-        <SwiperSlide>
-          <Card />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Card />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Card />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Card />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Card />
-        </SwiperSlide>
+        {similarRealEstates.map((item) => (
+          <SwiperSlide key={item.id}>
+            <Card {...item} />
+          </SwiperSlide>
+        ))}
       </Swiper>
     </>
   );

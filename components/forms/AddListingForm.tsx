@@ -11,6 +11,10 @@ import CustomFormField, { FormFieldType } from "../shared/CostumFormField";
 import { transactionTypeConstants } from "@/constants";
 import { SelectGroup, SelectItem } from "../ui/select";
 import { useEffect, useState } from "react";
+import { addRealEstate } from "@/lib/actions";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { AddAgentModal } from "../shared/AddAgentModal";
 
 const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
   // 1. Define your form.
@@ -20,12 +24,13 @@ const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
       transactionType: "იყიდება",
       location: "",
       region: "",
-      postalIndex: "",
+      zip_code: "",
       city: "",
-      goods: "",
+      area: "",
       price: "",
       image: undefined,
       agent: "",
+      bedrooms: "",
     },
   });
 
@@ -33,6 +38,8 @@ const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
     undefined
   );
   const [filteredCities, setFilteredCities] = useState<CityTypes[]>(cities);
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const handleRegionChange = (value: string) => {
     const selectedRegionId = regions.find(
@@ -53,11 +60,35 @@ const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
   }, [selectedRegion, cities]);
 
   // 2. Define a submit handler.
-  const onSubmit = async (data: z.infer<typeof AddListingFormSchema>) => {};
+  const onSubmit = async (values: z.infer<typeof AddListingFormSchema>) => {
+    const region = regions.find((region) => region.name === values.region);
+    const city = cities.find((city) => city.name === values.city);
+    const agent = agents.find((agent) => agent.name === values.agent);
+
+    // Create a new object with the desired changes
+    const submissionData = {
+      ...values,
+      region_id: String(region?.id),
+      city_id: String(city?.id),
+      agent_id: String(agent?.id),
+    };
+
+    try {
+      setIsLoading(true);
+      const status = await addRealEstate(submissionData);
+
+      if (status === 201) {
+        form.reset();
+        router.push("/");
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const error = form.formState.errors;
-
-  console.log(form.getValues(), error);
 
   return (
     <div className="w-[790px] mx-auto mt-[62px] mb-[87px]">
@@ -93,9 +124,9 @@ const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
               <CustomFormField
                 fieldType={FormFieldType.INPUT}
                 control={form.control}
-                name="postalIndex"
+                name="zip_code"
                 label="საფოსტო ინდექსი*"
-                error={error.postalIndex}
+                error={error.zip_code}
                 bottomText="მხოლოდ რიცხვები"
               />
             </div>
@@ -159,9 +190,9 @@ const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
               <CustomFormField
                 fieldType={FormFieldType.INPUT}
                 control={form.control}
-                name="goods"
+                name="area"
                 label="ფართობი*"
-                error={error.goods}
+                error={error.area}
                 bottomText="მხოლოდ რიცხვები"
               />
             </div>
@@ -169,9 +200,9 @@ const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
               <CustomFormField
                 fieldType={FormFieldType.INPUT}
                 control={form.control}
-                name="numberOfBedroom"
+                name="bedrooms"
                 label="საძინებლების რაოდენობა*"
-                error={error.numberOfBedroom}
+                error={error.bedrooms}
                 bottomText="მხოლოდ რიცხვები"
               />
             </div>
@@ -208,11 +239,12 @@ const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
                 label="აირჩიე"
                 error={error.agent}>
                 <SelectGroup>
+                  <AddAgentModal type="from-addListing" />
                   {agents.map((agent) => (
                     <SelectItem
                       value={agent.name}
                       key={agent.id}
-                      className="bg-white p-[10px] text-sm font-normal cursor-pointer">
+                      className="bg-white text-sm font-normal cursor-pointer">
                       {agent.name} {agent.surname}
                     </SelectItem>
                   ))}
@@ -228,7 +260,7 @@ const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
                 გაუქმება
               </Button>
               <Button className="bg-[#F93B1D] text-white border border-[#F93B1D] px-[10px] py-4 rounded-[10px] font-normal text-base">
-                დაამატე ლისთინგი
+                {isLoading ? "ემატება..." : "დაამატე ლისთინგი"}
               </Button>
             </div>
           </div>

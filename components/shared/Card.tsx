@@ -2,22 +2,35 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const Card = () => {
+const Card = ({
+  id,
+  address,
+  zip_code,
+  price,
+  area,
+  bedrooms,
+  image,
+  is_rental,
+  city,
+}: RealEstateListing) => {
   return (
     <Link
-      className="w-[384px] flex flex-col shadow-custom cursor-pointer"
-      href="/">
+      className="w-[384px] flex flex-col shadow-custom cursor-pointer relative"
+      href={`real-estate/${id}`}>
+      <span className="absolute bg-[#02152680] text-white p-[6px] rounded-[15px] left-[23px] top-[23px] text-xs font-medium">
+        {is_rental ? "ქირავდება" : "იყიდება"}
+      </span>
       <Image
-        src="/assets/images/card-img1.png"
+        src={image}
         alt="card img"
         width={384}
-        height={304}
-        className="rounded-t-[14px]"
+        height={307}
+        className="rounded-t-[14px] w-[384px] h-[307px] object-cover"
       />
 
       <div className="py-[22px] px-[25px]">
         <div className="flex flex-col gap-[6px] mt-[22px]">
-          <span className="text-[28px] font-bold">80 000 ₾</span>
+          <span className="text-[28px] font-bold">{price}</span>
           <div className="flex gap-1 mt-[6px]">
             <Image
               src="/assets/icons/location-marker.png"
@@ -27,7 +40,7 @@ const Card = () => {
             />
 
             <p className="text-base text-[#021526B2]">
-              თბილისი, ი. ჭავჭავაძის 53
+              {city?.name}, {address}
             </p>
           </div>
 
@@ -40,7 +53,7 @@ const Card = () => {
                 height={20}
               />
 
-              <p className="text-[#021526B2] text-base">2</p>
+              <p className="text-[#021526B2] text-base">{bedrooms}</p>
             </div>
             <div className="flex gap-[5px]">
               <Image
@@ -49,7 +62,7 @@ const Card = () => {
                 width={20}
                 height={20}
               />
-              <p className="text-[#021526B2] text-base">55 მ</p>
+              <p className="text-[#021526B2] text-base">{area}</p>
             </div>
             <div className="flex gap-[5px]">
               <Image
@@ -58,7 +71,7 @@ const Card = () => {
                 width={20}
                 height={20}
               />
-              <p className="text-[#021526B2] text-base">0160</p>
+              <p className="text-[#021526B2] text-base">{zip_code}</p>
             </div>
           </div>
         </div>

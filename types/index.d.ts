@@ -1,5 +1,3 @@
-
-
 declare interface CustomProps {
   error: any;
   control: Control<any>;
@@ -36,16 +34,42 @@ declare interface RegionTypes {
     name: string;
 }
 
-declare interface AgentTypes {
-  id: name;
-  name: string;
-  surname: string;
-  avatar: string;
-}
 
 declare interface AddListingProps {
   cities: CityTypes[];
   regions: RegionTypes[];
   agents: AgentTypes[];
 }
-  
+
+type City = {
+  id: number;
+  name: string;
+  region_id: number;
+  region: RegionTypes;
+};
+
+declare interface AgentTypes {
+  id: number;
+  name: string;
+  surname: string;
+  email: string;
+  avatar: string;
+  phone: string;
+}
+
+declare interface RealEstateListing {
+  id: number;
+  address: string;
+  image: string;
+  zip_code: string;
+  description: string;
+  price: number;
+  bedrooms: number;
+  area: number;
+  is_rental: number;
+  agent_id: number;
+  city_id: number;
+  created_at: string; 
+  city: City; 
+  agent: AgentTypes;
+}

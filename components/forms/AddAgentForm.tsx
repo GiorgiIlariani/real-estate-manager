@@ -10,7 +10,6 @@ import { Form } from "@/components/ui/form";
 import CustomFormField, { FormFieldType } from "../shared/CostumFormField";
 import { AddAgent } from "@/lib/actions";
 import { useState } from "react";
-import { url } from "@/lib/utils";
 
 const AddAgentForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -30,8 +29,6 @@ const AddAgentForm = () => {
 
   // 2. Define a submit handler.
   const onSubmit = async (values: z.infer<typeof AddAgentFormSchema>) => {
-    console.log({ values });
-
     try {
       setIsLoading(true);
       const status = await AddAgent(values);

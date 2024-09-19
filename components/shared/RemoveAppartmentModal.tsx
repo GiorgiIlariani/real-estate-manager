@@ -8,8 +8,24 @@ import {
 } from "@/components/ui/dialog";
 
 import { Button } from "../ui/button";
+import { removeEachRealEstate } from "@/lib/actions";
+import { useRouter } from "next/navigation";
 
-export function RemoveAppartmentModal() {
+export function RemoveAppartmentModal({ id }: { id: number }) {
+  const router = useRouter();
+
+  const handleDeleteRealEstate = async () => {
+    try {
+      const status = await removeEachRealEstate(String(id));
+
+      if (status === 200) {
+        router.push("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Dialog>
       <DialogTrigger className="text-[#676E76] text-xs p-[10px] rounded-[8px] mt-5 cursor-pointer border w-max">
@@ -26,7 +42,9 @@ export function RemoveAppartmentModal() {
             onClick={() => {}}>
             გაუქმება
           </Button>
-          <Button className="bg-[#F93B1D] border border-[#F93B1D] text-white px-4 py-[10px] text-base font-medium">
+          <Button
+            className="bg-[#F93B1D] border border-[#F93B1D] text-white px-4 py-[10px] text-base font-medium"
+            onClick={handleDeleteRealEstate}>
             დადასტურება
           </Button>
         </div>

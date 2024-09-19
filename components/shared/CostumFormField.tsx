@@ -139,19 +139,19 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
               type="file"
               onChange={(e) => fileSelectorHandler(e)}
               className="hidden"
-              disabled={!!field.value} // Disable if there is already an image
+              disabled={!!field.value}
             />
             {field.value ? (
               <div className="relative">
                 <Image
-                  src={URL.createObjectURL(field.value)} // Create a URL for the uploaded file
+                  src={URL.createObjectURL(field.value)}
                   alt="uploaded image"
                   width={92}
                   height={84}
-                  className="rounded-[4px] object-cover"
+                  className="rounded-[4px] w-[92px] h-[84px] object-cover"
                 />
                 <div
-                  className="absolute -bottom-1 -right-1 cursor-pointer" // Only the delete icon has pointer cursor
+                  className="absolute -bottom-1 -right-1 cursor-pointer"
                   onClick={handleImageRemove}>
                   <Image
                     src="/assets/icons/delete-icon.png"
