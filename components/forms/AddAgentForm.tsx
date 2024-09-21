@@ -56,7 +56,7 @@ const AddAgentForm = () => {
 
       if (status === 201) {
         form.reset();
-        localStorage.removeItem("image");
+        typeof window !== "undefined" && localStorage.removeItem("image");
       }
     } catch (error) {
       console.log(error);

@@ -21,7 +21,8 @@ const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
     (typeof window !== "undefined" && localStorage.getItem("formData")) || "{}"
   );
   const storedImage =
-    (typeof window !== "undefined" && localStorage.getItem("image")) || null;
+    (typeof window !== "undefined" && localStorage.getItem("listingImage")) ||
+    null;
 
   const defaultValues = {
     transactionType: storedFormData.transactionType || "იყიდება",
