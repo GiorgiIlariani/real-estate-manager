@@ -44,9 +44,15 @@ const RenderInput = ({
     const imageData = e.target.files?.[0];
 
     if (imageData) {
-      props.setValue("image", imageData); // Assuming this is for file input
+      const reader = new FileReader();
+      reader.readAsDataURL(imageData);
+      reader.onloadend = () => {
+        const base64data = reader.result as string;
+        props.setValue("image", base64data); // Store Base64 string instead of the file
+        localStorage.setItem("image", base64data); // Save to localStorage
+      };
     } else {
-      props.setValue("image", null); // Set to null if no file is selected
+      props.setValue("image", null);
     }
   };
 
@@ -151,7 +157,7 @@ const RenderInput = ({
             {field.value ? (
               <div className="relative">
                 <Image
-                  src={URL.createObjectURL(field.value)}
+                  src={field.value}
                   alt="uploaded image"
                   width={92}
                   height={84}

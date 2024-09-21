@@ -72,7 +72,7 @@ export const Filters = ({
       (minArea === null && maxArea === 0) ||
       maxArea === null
     )
-      return; // Prevent submitting if both are zero
+      return;
     const selectedAreaRange = `${minArea ?? 0} - ${maxArea ?? "∞"}`;
     onSelectedAreaChange(selectedAreaRange);
   };

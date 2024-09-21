@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,20 +11,38 @@ import { AddAgentModal } from "./AddAgentModal";
 const DropdownMenuComponent = ({
   agents,
   onSelectAgent,
+  error,
 }: {
   agents: AgentTypes[];
   onSelectAgent: (agent: AgentTypes) => void;
+  error: any;
 }) => {
-  const [selectedAgent, setSelectedAgent] = useState<AgentTypes | null>(null);
+  // Load the initial selected agent from localStorage
+  const initialSelectedAgent = JSON.parse(
+    localStorage.getItem("selectedAgent") || "null"
+  );
+
+  const [selectedAgent, setSelectedAgent] = useState<AgentTypes | null>(
+    initialSelectedAgent
+  );
 
   const handleAgentSelect = (agent: AgentTypes) => {
     setSelectedAgent(agent);
-    onSelectAgent(agent); // Call the provided function to update form value
+    onSelectAgent(agent);
+    localStorage.setItem("selectedAgent", JSON.stringify(agent));
   };
+
+  // const clearSelectedAgent = () => {
+  //   setSelectedAgent(null);
+  //   localStorage.removeItem("selectedAgent");
+  // };
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="w-full p-[10px] flex justify-between items-center border border-[#808A93] outline-none">
+      <DropdownMenuTrigger
+        className={`w-full h-[40px] p-[10px] rounded-md flex justify-between items-center border border-[#808A93] outline-none ${
+          error && !selectedAgent ? "border-[#F93B1D]" : "border-[#808A93]"
+        }`}>
         <div>
           {selectedAgent
             ? `${selectedAgent.name} ${selectedAgent.surname}`

@@ -14,38 +14,64 @@ import { useEffect, useState } from "react";
 import { addRealEstate } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 import DropdownMenuComponent from "../shared/DropdownMenu";
+import { base64ToBlob } from "@/lib/utils";
 
 const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
-  // 1. Define your form.
+  const storedFormData = JSON.parse(localStorage.getItem("formData") || "{}");
+  const storedImage = localStorage.getItem("image") || null;
+
+  const defaultValues = {
+    transactionType: storedFormData.transactionType || "იყიდება",
+    location: storedFormData.location || "",
+    region: storedFormData.region || "",
+    zip_code: storedFormData.zip_code || "",
+    city: storedFormData.city || "",
+    area: storedFormData.area || "",
+    price: storedFormData.price || "",
+    image: storedImage,
+    agent: storedFormData.agent || "",
+    bedrooms: storedFormData.bedrooms || "",
+    description: storedFormData.description || "",
+  };
+
   const form = useForm<z.infer<typeof AddListingFormSchema>>({
     resolver: zodResolver(AddListingFormSchema),
-    defaultValues: {
-      transactionType: "იყიდება",
-      location: "",
-      region: "",
-      zip_code: "",
-      city: "",
-      area: "",
-      price: "",
-      image: undefined,
-      agent: "",
-      bedrooms: "",
-    },
+    defaultValues,
   });
 
-  const [selectedRegion, setSelectedRegion] = useState<number | undefined>(
-    undefined
+  // Load the initial selected region from localStorage
+  const initialSelectedRegion = JSON.parse(
+    localStorage.getItem("selectedRegion") || "null"
   );
+
+  const [selectedRegion, setSelectedRegion] = useState<number | undefined>(
+    initialSelectedRegion
+  );
+
   const [filteredCities, setFilteredCities] = useState<CityTypes[]>(cities);
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
 
+  useEffect(() => {
+    const subscription = form.watch((value) => {
+      localStorage.setItem("formData", JSON.stringify(value));
+    });
+
+    return () => subscription.unsubscribe();
+  }, [form]);
+
+  useEffect(() => {
+    if (selectedRegion !== undefined) {
+      localStorage.setItem("selectedRegion", JSON.stringify(selectedRegion));
+    }
+  }, [selectedRegion]);
+
   const handleRegionChange = (value: string) => {
     const selectedRegionId = regions.find(
       (region) => region.name === value
-    )?.id; // Get the ID based on the selected name
-    setSelectedRegion(selectedRegionId); // Set the selected region ID
+    )?.id;
+    setSelectedRegion(selectedRegionId);
     form.setValue("city", ""); // Reset city when region changes
   };
 
@@ -59,7 +85,6 @@ const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
     }
   }, [selectedRegion, cities]);
 
-  // 2. Define a submit handler.
   const onSubmit = async (values: z.infer<typeof AddListingFormSchema>) => {
     const region = regions.find((region) => region.name === values.region);
     const city = cities.find((city) => city.name === values.city);
@@ -76,7 +101,19 @@ const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
       formData.append("description", values.description);
       formData.append("area", values.area);
       formData.append("bedrooms", values.bedrooms);
-      formData.append("image", values.image);
+
+      let imageToUpload;
+      if (
+        typeof values.image === "string" &&
+        values.image.startsWith("data:image")
+      ) {
+        imageToUpload = base64ToBlob(values.image, "image/jpeg");
+      } else {
+        imageToUpload = values.image;
+      }
+
+      formData.append("image", imageToUpload);
+
       formData.append("city_id", String(city?.id));
       formData.append("address", values.location);
       formData.append("agent_id", String(agent?.id));
@@ -88,6 +125,9 @@ const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
       if (status === 201) {
         form.reset();
         router.push("/");
+        localStorage.removeItem("formData");
+        localStorage.removeItem("selectedAgent");
+        localStorage.removeItem("image");
       }
     } catch (error) {
       console.log(error);
@@ -243,7 +283,9 @@ const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
               <h5 className="font-medium text-sm">აირჩიე</h5>
               <DropdownMenuComponent
                 agents={agents}
+                //
                 onSelectAgent={(agent) => form.setValue("agent", agent.name)} // Update agent value in the form
+                error={error.agent}
               />
             </div>
           </section>

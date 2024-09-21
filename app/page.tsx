@@ -17,40 +17,52 @@ const HomePage = async ({
 
   // Filtering logic
   const filteredRealEstates = allRealEstates.filter((item) => {
-    let matches = true;
+    // If no filters are set, return all real estates
+    if (
+      !searchParams.regions &&
+      !searchParams.price &&
+      !searchParams.area &&
+      !searchParams.bedrooms
+    ) {
+      return true; // Show all listings
+    }
 
-    // Filter by regions
+    let matches = false; // Start with false
+
+    // Check regions
     if (searchParams.regions) {
       const selectedRegions = searchParams.regions.split(",").map(Number);
-      matches = matches && selectedRegions.includes(item.city.region_id); // Adjust `item.regionId` based on your data structure
+      if (selectedRegions.includes(item.city.region_id)) {
+        matches = true; // Match found in regions
+      }
     }
 
-    // Filter by price
+    // Check price
     if (searchParams.price) {
       const [minPrice, maxPrice] = searchParams.price.split("-").map(Number);
-      matches = matches && item.price >= minPrice && item.price <= maxPrice; // Adjust `item.price` based on your data structure
+      if (item.price >= minPrice && item.price <= maxPrice) {
+        matches = true; // Match found in price range
+      }
     }
 
-    // Filter by area
+    // Check area
     if (searchParams.area) {
       const [minArea, maxArea] = searchParams.area.split("-").map(Number);
-      matches = matches && item.area >= minArea && item.area <= maxArea; // Adjust `item.area` based on your data structure
+      if (item.area >= minArea && item.area <= maxArea) {
+        matches = true; // Match found in area range
+      }
     }
 
-    // Filter by bedrooms
+    // Check bedrooms
     if (searchParams.bedrooms) {
       const selectedBedrooms = Number(searchParams.bedrooms);
-      matches = matches && item.bedrooms === selectedBedrooms; // Adjust `item.bedrooms` based on your data structure
+      if (item.bedrooms === selectedBedrooms) {
+        matches = true; // Match found in bedrooms
+      }
     }
 
-    return matches;
+    return matches; // Return true if at least one condition matched
   });
-
-  // // Sort by created_at (newest first)
-  // const sortedRealEstates = filteredRealEstates.sort(
-  //   (a, b) =>
-  //     new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-  // );
 
   return (
     <main className="w-full flex flex-col">

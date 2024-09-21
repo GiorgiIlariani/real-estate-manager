@@ -2,6 +2,12 @@ import { z } from "zod";
 
 const isBrowser = typeof window !== "undefined";
 
+// Utility to check if a string is Base64
+const isValidBase64 = (str: string) => {
+  const base64Regex = /^data:image\/[a-zA-Z]+;base64,/;
+  return base64Regex.test(str);
+};
+
 export const AddListingFormSchema = z.object({
   transactionType: z.enum(["იყიდება", "ქირავდება"], {
     required_error: "გთხოვთ აირჩიეთ ტრანზაქციის ტიპი",
@@ -27,15 +33,17 @@ export const AddListingFormSchema = z.object({
       message: "მინიმუმ 5 სიტყვა",
     }),
   image: isBrowser
-    ? z.instanceof(File).refine(file => file.size > 0 && file.size <= 1000000, {
-        message: "გთხოვთ ატვირთოთ გამოსახულება, მაქსიმალური ზომა: 1 მბ",
-      })
-    : z.any().refine(file => file.size > 0 && file.size <= 1000000, {
-        message: "გთხოვთ ატვირთოთ გამოსახულება, მაქსიმალური ზომა: 1 მბ",
-      }),
+    ? z.union([
+        z.instanceof(File).refine(file => file.size > 0 && file.size <= 1000000, {
+          message: "გთხოვთ ატვირთოთ გამოსახულება, მაქსიმალური ზომა: 1 მბ",
+        }),
+        z.string().refine(val => isValidBase64(val), {
+          message: "სურათის ფორმატი არასწორია",
+        }),
+      ])
+    : z.any(),
   agent: z.string().min(1, "სავალდებულო ველი"),
 });
-
 
 export const AddAgentFormSchema = z.object({
   name: z.string().min(2, "მინიმუმ ორი სიმბოლო"),
@@ -49,10 +57,13 @@ export const AddAgentFormSchema = z.object({
     .min(9, "მხოლოდ ციფრები")
     .regex(/^5\d{8}$/, "ნომერი უნდა იყოს ფორმატით 5XXXXXXXX"),
   image: isBrowser
-    ? z.instanceof(File).refine(file => file.size > 0 && file.size <= 1000000, {
-        message: "გთხოვთ ატვირთოთ გამოსახულება, მაქსიმალური ზომა: 1 მბ",
-      })
-    : z.any().refine(file => file.size > 0 && file.size <= 1000000, {
-        message: "გთხოვთ ატვირთოთ გამოსახულება, მაქსიმალური ზომა: 1 მბ",
-      }),
+    ? z.union([
+        z.instanceof(File).refine(file => file.size > 0 && file.size <= 1000000, {
+          message: "გთხოვთ ატვირთოთ გამოსახულება, მაქსიმალური ზომა: 1 მბ",
+        }),
+        z.string().refine(val => isValidBase64(val), {
+          message: "სურათის ფორმატი არასწორია",
+        }),
+      ])
+    : z.any(),
 });
