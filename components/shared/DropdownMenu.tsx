@@ -15,9 +15,8 @@ const DropdownMenuComponent = ({
 }: {
   agents: AgentTypes[];
   onSelectAgent: (agent: AgentTypes) => void;
-  error: any;
+  error: unknown;
 }) => {
-  // Load the initial selected agent from localStorage
   const initialSelectedAgent = JSON.parse(
     (typeof window !== "undefined" && localStorage.getItem("selectedAgent")) ||
       "null"
