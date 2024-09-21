@@ -2,8 +2,6 @@
 
 import { revalidatePath } from "next/cache";
 import { url } from "../utils";
-import { AddAgentFormSchema, AddListingFormSchema } from "../validation";
-import { z } from "zod";
 
 
 // cities and regions
@@ -38,7 +36,7 @@ export const fetchRegions = async () => {
 }
 
 //  agent
-export const AddAgent = async  (formData:any) => {
+export const AddAgent = async  (formData: FormData) => {
 
   try {
     const response =  await fetch(`${url}/agents`, {
@@ -129,7 +127,7 @@ export const removeEachRealEstate = async (id: string) => {
 
 
 
-export const addRealEstate = async (formData: any) => {
+export const addRealEstate = async (formData: FormData) => {
   
   try {
     const response =  await fetch(`${url}/real-estates`, {
