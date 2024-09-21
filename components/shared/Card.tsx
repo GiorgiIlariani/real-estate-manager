@@ -15,7 +15,7 @@ const Card = ({
 }: RealEstateListing) => {
   return (
     <Link
-      className="w-[384px] flex flex-col shadow-custom cursor-pointer relative"
+      className="w-[384px] flex flex-col shadow-custom cursor-pointer relative rounded-t-[14px]"
       href={`real-estate/${id}`}>
       <span className="absolute bg-[#02152680] text-white p-[6px] rounded-[15px] left-[23px] top-[23px] text-xs font-medium">
         {is_rental ? "ქირავდება" : "იყიდება"}

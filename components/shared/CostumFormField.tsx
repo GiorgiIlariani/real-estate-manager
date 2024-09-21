@@ -195,37 +195,40 @@ const CustomFormField = (props: CustomProps) => {
           )}
           <RenderInput field={field} props={props} />
 
-          {props.bottomText && (
-            <div className="flex gap-1 items-center">
-              <Image
-                src={
-                  props.error
-                    ? "/assets/icons/confirm-error.png"
-                    : field.value && fieldState.isTouched
-                    ? "/assets/icons/confirm-success.png"
-                    : "/assets/icons/confirm-default.png"
-                }
-                alt="confirm"
-                width={10}
-                height={8}
-              />
-
-              {props.bottomText ? (
-                <p
-                  className={`text-sm font-normal ${
+          {/* Only render confirmation image if the field type is not FILE or SELECT */}
+          {props.fieldType !== FormFieldType.FILE &&
+            props.fieldType !== FormFieldType.SELECT &&
+            props.fieldType !== FormFieldType.RADIO && (
+              <div className="flex gap-1 items-center">
+                <Image
+                  src={
                     props.error
-                      ? "text-[#F93B1D]"
+                      ? "/assets/icons/confirm-error.png"
                       : field.value && fieldState.isTouched
-                      ? "text-[#45A849]"
-                      : "text-black"
-                  }`}>
-                  {props.bottomText}
-                </p>
-              ) : (
-                <FormMessage className="form-message" />
-              )}
-            </div>
-          )}
+                      ? "/assets/icons/confirm-success.png"
+                      : "/assets/icons/confirm-default.png"
+                  }
+                  alt="confirm"
+                  width={10}
+                  height={8}
+                />
+
+                {props.bottomText ? (
+                  <p
+                    className={`text-sm font-normal ${
+                      props.error
+                        ? "text-[#F93B1D]"
+                        : field.value && fieldState.isTouched
+                        ? "text-[#45A849]"
+                        : "text-black"
+                    }`}>
+                    {props.bottomText}
+                  </p>
+                ) : (
+                  <FormMessage className="form-message" />
+                )}
+              </div>
+            )}
         </FormItem>
       )}
     />

@@ -46,15 +46,25 @@ const HomePage = async ({
     return matches;
   });
 
+  // // Sort by created_at (newest first)
+  // const sortedRealEstates = filteredRealEstates.sort(
+  //   (a, b) =>
+  //     new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  // );
+
   return (
     <main className="w-full flex flex-col">
       <Navbar regions={regions} />
 
       <div className="wrapper mt-8 mb-[60px]">
         <div className="w-full flex flex-wrap gap-4">
-          {filteredRealEstates.map((item) => (
-            <Card key={item.id} {...item} />
-          ))}
+          {filteredRealEstates.length === 0 ? (
+            <div className="text-lg text-[#021526CC] font-normal mt-[65px]">
+              აღნიშნული მონაცემებით განცხადება არ იძებნება
+            </div>
+          ) : (
+            filteredRealEstates.map((item) => <Card key={item.id} {...item} />)
+          )}
         </div>
       </div>
     </main>

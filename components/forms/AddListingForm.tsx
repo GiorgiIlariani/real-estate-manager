@@ -15,6 +15,7 @@ import { addRealEstate } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { AddAgentModal } from "../shared/AddAgentModal";
+import DropdownMenuComponent from "../shared/DropdownMenu";
 
 const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
   // 1. Define your form.
@@ -39,6 +40,7 @@ const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
   );
   const [filteredCities, setFilteredCities] = useState<CityTypes[]>(cities);
   const [isLoading, setIsLoading] = useState(false);
+
   const router = useRouter();
 
   const handleRegionChange = (value: string) => {
@@ -65,17 +67,25 @@ const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
     const city = cities.find((city) => city.name === values.city);
     const agent = agents.find((agent) => agent.name === values.agent);
 
-    // Create a new object with the desired changes
-    const submissionData = {
-      ...values,
-      region_id: String(region?.id),
-      city_id: String(city?.id),
-      agent_id: String(agent?.id),
-    };
-
     try {
       setIsLoading(true);
-      const status = await addRealEstate(submissionData);
+      const formData = new FormData();
+
+      const is_rental = values.transactionType === "იყიდება" ? "0" : "1";
+
+      formData.append("price", values.price);
+      formData.append("zip_code", values.zip_code);
+      formData.append("description", values.description);
+      formData.append("area", values.area);
+      formData.append("bedrooms", values.bedrooms);
+      formData.append("image", values.image);
+      formData.append("city_id", String(city?.id));
+      formData.append("address", values.location);
+      formData.append("agent_id", String(agent?.id));
+      formData.append("region_id", String(region?.id));
+      formData.append("is_rental", is_rental);
+
+      const status = await addRealEstate(formData);
 
       if (status === 201) {
         form.reset();
@@ -231,25 +241,12 @@ const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
           {/* აგენტი */}
           <section className="flex flex-col gap-[22px]">
             <h4 className="text-base font-normal text-left">აგენტი</h4>
-            <div className="max-w-[385px]">
-              <CustomFormField
-                fieldType={FormFieldType.SELECT}
-                control={form.control}
-                name="agent"
-                label="აირჩიე"
-                error={error.agent}>
-                <SelectGroup>
-                  <AddAgentModal type="from-addListing" />
-                  {agents.map((agent) => (
-                    <SelectItem
-                      value={agent.name}
-                      key={agent.id}
-                      className="bg-white text-sm font-normal cursor-pointer">
-                      {agent.name} {agent.surname}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </CustomFormField>
+            <div className="max-w-[385px] flex flex-col gap-[5px]">
+              <h5 className="font-medium text-sm">აირჩიე</h5>
+              <DropdownMenuComponent
+                agents={agents}
+                onSelectAgent={(agent) => form.setValue("agent", agent.name)} // Update agent value in the form
+              />
             </div>
           </section>
 

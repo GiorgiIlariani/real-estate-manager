@@ -1,3 +1,6 @@
+'use server';
+
+import { revalidatePath } from "next/cache";
 import { url } from "../utils";
 import { AddAgentFormSchema, AddListingFormSchema } from "../validation";
 import { z } from "zod";
@@ -35,14 +38,7 @@ export const fetchRegions = async () => {
 }
 
 //  agent
-export const AddAgent = async  (values: z.infer<typeof AddAgentFormSchema>) => {
-  const formData = new FormData();
-
-  formData.append("name", values.name);
-  formData.append("surname", values.username);
-  formData.append("phone", values.phone_number);
-  formData.append("email", values.email);
-  formData.append("avatar", values.image);
+export const AddAgent = async  (formData:any) => {
 
   try {
     const response =  await fetch(`${url}/agents`, {
@@ -51,9 +47,11 @@ export const AddAgent = async  (values: z.infer<typeof AddAgentFormSchema>) => {
         accept: "application/json",
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_REDBERRY_TOKEN}`,
       },
+      cache: 'no-cache',
       body: formData,
     });
 
+    revalidatePath('/add-listing');
     return response.status;
   } catch (error: any) {
     throw new Error(`Something went wrong: ${error.message}`);
@@ -114,46 +112,25 @@ export const fetchEachRealEstate = async (id: string) => {
 export const removeEachRealEstate = async (id: string) => {
    try {
     const response =  await fetch(`${url}/real-estates/${id}`, {
+      method: 'DELETE',
       headers: {
-        method: 'DELETE',
         accept: "application/json",
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_REDBERRY_TOKEN}`,
       },
+      
     });
     
+    revalidatePath('/')
     return response.status;
   } catch (error: any) {
     throw new Error(`Something went wrong: ${error.message}`);
   }
 };
 
-// Define the type based on your schema
-type AddListingValues = z.infer<typeof AddListingFormSchema> & {
-  city_id: string;
-  region_id: string;
-  agent_id: string;
-};
 
-export const addRealEstate = async (values: AddListingValues) => {
-  console.log({ values });
+
+export const addRealEstate = async (formData: any) => {
   
-  const formData = new FormData();
-
-  const is_rental = values.transactionType === 'იყიდება' ? '0' : '1';
-
-  formData.append("price", values.price);
-  formData.append("zip_code", values.zip_code);
-  formData.append("description", values.description);
-  formData.append("area", values.area);
-  formData.append("bedrooms", values.bedrooms);
-  formData.append("image", values.image);
-  formData.append("city_id", values.city_id);
-  formData.append("address", values.location);
-  formData.append("agent_id", values.agent_id);
-  formData.append("region_id", values.region_id);
-  formData.append("is_rental", is_rental);
-
-
   try {
     const response =  await fetch(`${url}/real-estates`, {
       method: "POST",
@@ -164,6 +141,7 @@ export const addRealEstate = async (values: AddListingValues) => {
       body: formData,
     });
 
+    revalidatePath('/')
     return response.status;
   } catch (error: any) {
     throw new Error(`Something went wrong: ${error.message}`);

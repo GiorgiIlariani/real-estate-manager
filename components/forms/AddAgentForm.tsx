@@ -10,6 +10,7 @@ import { Form } from "@/components/ui/form";
 import CustomFormField, { FormFieldType } from "../shared/CostumFormField";
 import { AddAgent } from "@/lib/actions";
 import { useState } from "react";
+import { DialogClose } from "../ui/dialog";
 
 const AddAgentForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -24,14 +25,21 @@ const AddAgentForm = () => {
       phone_number: "",
       image: undefined,
     },
-    // mode: "onChange",
   });
 
   // 2. Define a submit handler.
   const onSubmit = async (values: z.infer<typeof AddAgentFormSchema>) => {
+    const formData = new FormData();
+
+    formData.append("name", values.name);
+    formData.append("surname", values.username);
+    formData.append("phone", values.phone_number);
+    formData.append("email", values.email);
+    formData.append("avatar", values.image);
+
     try {
       setIsLoading(true);
-      const status = await AddAgent(values);
+      const status = await AddAgent(formData);
 
       if (status === 201) {
         form.reset();
@@ -102,9 +110,13 @@ const AddAgentForm = () => {
 
           <div className="w-full flex justify-end mt-[66px]">
             <div className="flex gap-[15px]">
-              <Button className="bg-transparent text-[#F93B1D] border border-[#F93B1D] px-[10px] py-4 rounded-[10px] font-normal text-base">
-                გაუქმება
-              </Button>
+              <DialogClose asChild>
+                <Button
+                  className="bg-transparent text-[#F93B1D] border border-[#F93B1D] px-[10px] py-4 rounded-[10px] font-normal text-base"
+                  type="button">
+                  გაუქმება
+                </Button>
+              </DialogClose>
               <Button className="bg-[#F93B1D] text-white border border-[#F93B1D] px-[10px] py-4 rounded-[10px] font-normal text-base">
                 {isLoading ? "ემატება..." : "დაამატე აგენტი"}
               </Button>

@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 
 const Navbar = ({ regions }: { regions: RegionTypes[] }) => {
   const router = useRouter();
+
   const [selectedRegions, setSelectedRegions] = useState<RegionTypes[]>([]);
   const [selectedPriceRange, setSelectedPriceRange] = useState<string | null>(
     null
@@ -85,8 +86,6 @@ const Navbar = ({ regions }: { regions: RegionTypes[] }) => {
     selectedAreaRange,
     selectedBedroomCount,
   ]);
-
-  console.log({ selectedPriceRange, selectedRegions, selectedBedroomCount });
 
   return (
     <div className="wrapper mt-[77px]">

@@ -166,12 +166,14 @@ const EachRealEstate = async ({ params }: { params: { id: string } }) => {
       </div>
 
       {/* similar blogs */}
-      <div className="mt-[53px]">
-        <h3 className="text-[32px] font-medium">ბინები მსგავს ლოკაციაზე</h3>
-        <div className="w-full mt-[52px] relative">
-          <SimilarApartments similarRealEstates={similarRealEstates} />
+      {similarRealEstates.length > 0 && (
+        <div className="mt-[53px]">
+          <h3 className="text-[32px] font-medium">ბინები მსგავს ლოკაციაზე</h3>
+          <div className="w-full mt-[52px] relative">
+            <SimilarApartments similarRealEstates={similarRealEstates} />
+          </div>
         </div>
-      </div>
+      )}
     </main>
   );
 };

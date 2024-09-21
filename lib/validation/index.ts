@@ -11,7 +11,7 @@ export const AddListingFormSchema = z.object({
   city: z.string().min(1, "სავალდებულო ველი"),
   zip_code: z.string()
     .min(1, "სავალდებულო ველი")
-    .regex(/^\d{4}(-\d{4})?$/, "მხოლოდ რიცხვები"), // Example regex for a US postal code
+    .regex(/^\d{4}(-\d{4})?$/, "მხოლოდ რიცხვები"), // Adjust this regex as needed
   area: z.string()
     .min(1, "სავალდებულო ველი")
     .regex(/^\d+$/, "მხოლოდ ციფრები"),
@@ -23,33 +23,36 @@ export const AddListingFormSchema = z.object({
     .regex(/^\d+$/, "მხოლოდ ციფრები"),
   description: z.string()
     .min(1, "სავალდებულო ველი")
-    .refine((val) => val.trim().split(/\s+/).filter(Boolean).length >= 5, {
+    .refine(val => val.trim().split(/\s+/).length >= 5, {
       message: "მინიმუმ 5 სიტყვა",
     }),
   image: isBrowser
-    ? z.instanceof(File).refine((file) => file.size > 0, {
-        message: "გთხოვთ ატვირთოთ გამოსახულება",
+    ? z.instanceof(File).refine(file => file.size > 0 && file.size <= 1000000, {
+        message: "გთხოვთ ატვირთოთ გამოსახულება, მაქსიმალური ზომა: 1 მბ",
       })
-    : z.any().refine((file) => file.size > 0, {
-        message: "File must be uploaded",
+    : z.any().refine(file => file.size > 0 && file.size <= 1000000, {
+        message: "გთხოვთ ატვირთოთ გამოსახულება, მაქსიმალური ზომა: 1 მბ",
       }),
   agent: z.string().min(1, "სავალდებულო ველი"),
 });
 
+
 export const AddAgentFormSchema = z.object({
   name: z.string().min(2, "მინიმუმ ორი სიმბოლო"),
   username: z.string().min(2, "მინიმუმ ორი სიმბოლო"),
-  email: z.string().regex(/^[a-zA-Z0-9._%+-]+@redberry\.ge$/, {
-    message: "გამოიყენეთ @redberry.ge ფოსტა",
-  }),
+  email: z.string()
+    .email("შეიყვანეთ ვალიდური ელ-ფოსტა")
+    .regex(/^[a-zA-Z0-9._%+-]+@redberry\.ge$/, {
+      message: "გამოიყენეთ @redberry.ge ფოსტა",
+    }),
   phone_number: z.string()
-    .min(1, "მხოლოდ ციფრები")
-    .regex(/^\d+$/, "მხოლოდ რიცხვები"),
+    .min(9, "მხოლოდ ციფრები")
+    .regex(/^5\d{8}$/, "ნომერი უნდა იყოს ფორმატით 5XXXXXXXX"),
   image: isBrowser
-    ? z.instanceof(File).refine((file) => file.size > 0, {
-        message: "გთხოვთ ატვირთოთ გამოსახულება",
+    ? z.instanceof(File).refine(file => file.size > 0 && file.size <= 1000000, {
+        message: "გთხოვთ ატვირთოთ გამოსახულება, მაქსიმალური ზომა: 1 მბ",
       })
-    : z.any().refine((file) => file.size > 0, {
-        message: "File must be uploaded",
+    : z.any().refine(file => file.size > 0 && file.size <= 1000000, {
+        message: "გთხოვთ ატვირთოთ გამოსახულება, მაქსიმალური ზომა: 1 მბ",
       }),
 });

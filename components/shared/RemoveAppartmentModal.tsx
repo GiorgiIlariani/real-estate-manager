@@ -2,6 +2,7 @@
 
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTrigger,
@@ -10,11 +11,15 @@ import {
 import { Button } from "../ui/button";
 import { removeEachRealEstate } from "@/lib/actions";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export function RemoveAppartmentModal({ id }: { id: number }) {
+  const [isLoading, setIsLoading] = useState(false);
+
   const router = useRouter();
 
   const handleDeleteRealEstate = async () => {
+    setIsLoading(true);
     try {
       const status = await removeEachRealEstate(String(id));
 
@@ -23,6 +28,8 @@ export function RemoveAppartmentModal({ id }: { id: number }) {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -37,15 +44,17 @@ export function RemoveAppartmentModal({ id }: { id: number }) {
         </DialogHeader>
 
         <div className="flex items-center gap-[15px] mt-[35px]">
-          <Button
-            className="bg-transparent border border-[#F93B1D] text-[#F93B1D] px-4 py-[10px] text-base font-medium"
-            onClick={() => {}}>
-            გაუქმება
-          </Button>
+          <DialogClose>
+            <Button
+              className="bg-transparent border border-[#F93B1D] text-[#F93B1D] px-4 py-[10px] text-base font-medium"
+              onClick={() => {}}>
+              გაუქმება
+            </Button>
+          </DialogClose>
           <Button
             className="bg-[#F93B1D] border border-[#F93B1D] text-white px-4 py-[10px] text-base font-medium"
             onClick={handleDeleteRealEstate}>
-            დადასტურება
+            {isLoading ? "იშლება..." : "დადასტურება"}
           </Button>
         </div>
       </DialogContent>

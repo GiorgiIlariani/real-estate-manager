@@ -44,6 +44,7 @@ const SimilarApartments = ({
           prevEl: ".image-swiper-button-prev",
           disabledClass: "swiper-button-disabled",
         }}
+        loop={true}
         modules={[Navigation]}
         breakpoints={{
           1200: {
