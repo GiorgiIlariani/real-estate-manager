@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,7 +19,8 @@ const DropdownMenuComponent = ({
 }) => {
   // Load the initial selected agent from localStorage
   const initialSelectedAgent = JSON.parse(
-    localStorage.getItem("selectedAgent") || "null"
+    (typeof window !== "undefined" && localStorage.getItem("selectedAgent")) ||
+      "null"
   );
 
   const [selectedAgent, setSelectedAgent] = useState<AgentTypes | null>(
@@ -29,13 +30,9 @@ const DropdownMenuComponent = ({
   const handleAgentSelect = (agent: AgentTypes) => {
     setSelectedAgent(agent);
     onSelectAgent(agent);
-    localStorage.setItem("selectedAgent", JSON.stringify(agent));
+    typeof window !== "undefined" &&
+      localStorage.setItem("selectedAgent", JSON.stringify(agent));
   };
-
-  // const clearSelectedAgent = () => {
-  //   setSelectedAgent(null);
-  //   localStorage.removeItem("selectedAgent");
-  // };
 
   return (
     <DropdownMenu>

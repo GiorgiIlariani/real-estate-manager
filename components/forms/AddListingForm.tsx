@@ -17,8 +17,11 @@ import DropdownMenuComponent from "../shared/DropdownMenu";
 import { base64ToBlob } from "@/lib/utils";
 
 const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
-  const storedFormData = JSON.parse(localStorage.getItem("formData") || "{}");
-  const storedImage = localStorage.getItem("image") || null;
+  const storedFormData = JSON.parse(
+    (typeof window !== "undefined" && localStorage.getItem("formData")) || "{}"
+  );
+  const storedImage =
+    (typeof window !== "undefined" && localStorage.getItem("image")) || null;
 
   const defaultValues = {
     transactionType: storedFormData.transactionType || "იყიდება",
@@ -41,7 +44,8 @@ const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
 
   // Load the initial selected region from localStorage
   const initialSelectedRegion = JSON.parse(
-    localStorage.getItem("selectedRegion") || "null"
+    (typeof window !== "undefined" && localStorage.getItem("selectedRegion")) ||
+      "null"
   );
 
   const [selectedRegion, setSelectedRegion] = useState<number | undefined>(
@@ -55,7 +59,8 @@ const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
 
   useEffect(() => {
     const subscription = form.watch((value) => {
-      localStorage.setItem("formData", JSON.stringify(value));
+      typeof window !== "undefined" &&
+        localStorage.setItem("formData", JSON.stringify(value));
     });
 
     return () => subscription.unsubscribe();
@@ -63,7 +68,8 @@ const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
 
   useEffect(() => {
     if (selectedRegion !== undefined) {
-      localStorage.setItem("selectedRegion", JSON.stringify(selectedRegion));
+      typeof window !== "undefined" &&
+        localStorage.setItem("selectedRegion", JSON.stringify(selectedRegion));
     }
   }, [selectedRegion]);
 
