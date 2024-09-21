@@ -135,7 +135,8 @@ const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
         typeof window !== "undefined" && localStorage.removeItem("formData");
         typeof window !== "undefined" &&
           localStorage.removeItem("selectedAgent");
-        typeof window !== "undefined" && localStorage.removeItem("image");
+        typeof window !== "undefined" &&
+          localStorage.removeItem("listingImage");
       }
     } catch (error) {
       console.log(error);

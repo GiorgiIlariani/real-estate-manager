@@ -50,7 +50,8 @@ const RenderInput = ({
       reader.onloadend = () => {
         const base64data = reader.result as string;
         props.setValue("image", base64data); // Store Base64 string instead of the file
-        localStorage.setItem("image", base64data); // Save to localStorage
+        typeof window !== "undefined" &&
+          localStorage.setItem("listingImage", base64data); // Save to localStorage
       };
     } else {
       props.setValue("image", null);
