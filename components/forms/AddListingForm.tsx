@@ -13,8 +13,6 @@ import { SelectGroup, SelectItem } from "../ui/select";
 import { useEffect, useState } from "react";
 import { addRealEstate } from "@/lib/actions";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
-import { AddAgentModal } from "../shared/AddAgentModal";
 import DropdownMenuComponent from "../shared/DropdownMenu";
 
 const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {

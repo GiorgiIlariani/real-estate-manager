@@ -85,6 +85,7 @@ const Navbar = ({ regions }: { regions: RegionTypes[] }) => {
     selectedPriceRange,
     selectedAreaRange,
     selectedBedroomCount,
+    router,
   ]);
 
   return (

@@ -22,6 +22,7 @@ import {
 
 import { Textarea } from "../ui/textarea";
 import { Label } from "../ui/label";
+import { ControllerRenderProps, FieldValues } from "react-hook-form";
 
 export enum FormFieldType {
   INPUT = "input",
@@ -32,7 +33,13 @@ export enum FormFieldType {
   FILE = "file",
 }
 
-const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
+const RenderInput = ({
+  field,
+  props,
+}: {
+  field: ControllerRenderProps<FieldValues, string>;
+  props: CustomProps;
+}) => {
   const fileSelectorHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const imageData = e.target.files?.[0];
 

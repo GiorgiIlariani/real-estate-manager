@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTrigger,
-  DialogClose,
-  DialogFooter,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 import AddAgentForm from "../forms/AddAgentForm";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -19,17 +12,13 @@ export function AddAgentModal({
   type: "from-home" | "from-addListing";
 }) {
   return (
-    <Dialog >
+    <Dialog>
       {type === "from-home" ? (
-        <DialogTrigger
-          className="bg-transparent text-[#F93B1D] border border-[#F93B1D] px-[10px] py-2 rounded-[10px] font-medium text-base gap-[2px] flex items-center"
-          >
+        <DialogTrigger className="bg-transparent text-[#F93B1D] border border-[#F93B1D] px-[10px] py-2 rounded-[10px] font-medium text-base gap-[2px] flex items-center">
           <AiOutlinePlus /> აგენტის დამატება
         </DialogTrigger>
       ) : (
-        <DialogTrigger
-          className="flex gap-2 items-center bg-white py-[10px] px-[5px] text-sm font-normal cursor-pointer"
-          >
+        <DialogTrigger className="flex gap-2 items-center bg-white py-[10px] px-[5px] text-sm font-normal cursor-pointer">
           <Image
             src="/assets/icons/plus-circle.png"
             alt="add photo"
@@ -45,7 +34,7 @@ export function AddAgentModal({
         <h1 className="text-[#021526] font-medium text-[32px] text-center">
           აგენტის დამატება
         </h1>
-        <AddAgentForm  />
+        <AddAgentForm />
       </DialogContent>
     </Dialog>
   );
