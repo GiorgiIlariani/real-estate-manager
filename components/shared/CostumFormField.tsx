@@ -23,7 +23,6 @@ import {
 import { Textarea } from "../ui/textarea";
 import { Label } from "../ui/label";
 import { ControllerRenderProps, FieldValues } from "react-hook-form";
-import local from "next/font/local";
 
 export enum FormFieldType {
   INPUT = "input",
