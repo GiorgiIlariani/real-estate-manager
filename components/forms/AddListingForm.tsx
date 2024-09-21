@@ -131,9 +131,10 @@ const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
       if (status === 201) {
         form.reset();
         router.push("/");
-        localStorage.removeItem("formData");
-        localStorage.removeItem("selectedAgent");
-        localStorage.removeItem("image");
+        typeof window !== "undefined" && localStorage.removeItem("formData");
+        typeof window !== "undefined" &&
+          localStorage.removeItem("selectedAgent");
+        typeof window !== "undefined" && localStorage.removeItem("image");
       }
     } catch (error) {
       console.log(error);

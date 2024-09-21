@@ -1,3 +1,5 @@
+"use client";
+
 import { AddAgentFormSchema } from "@/lib/validation";
 
 import { z } from "zod";
@@ -11,6 +13,7 @@ import CustomFormField, { FormFieldType } from "../shared/CostumFormField";
 import { AddAgent } from "@/lib/actions";
 import { useState } from "react";
 import { DialogClose } from "../ui/dialog";
+import { base64ToBlob } from "@/lib/utils";
 
 const AddAgentForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -35,7 +38,17 @@ const AddAgentForm = () => {
     formData.append("surname", values.username);
     formData.append("phone", values.phone_number);
     formData.append("email", values.email);
-    formData.append("avatar", values.image);
+    let imageToUpload;
+    if (
+      typeof values.image === "string" &&
+      values.image.startsWith("data:image")
+    ) {
+      imageToUpload = base64ToBlob(values.image, "image/jpeg");
+    } else {
+      imageToUpload = values.image;
+    }
+
+    formData.append("avatar", imageToUpload);
 
     try {
       setIsLoading(true);
@@ -43,6 +56,7 @@ const AddAgentForm = () => {
 
       if (status === 201) {
         form.reset();
+        localStorage.removeItem("image");
       }
     } catch (error) {
       console.log(error);
