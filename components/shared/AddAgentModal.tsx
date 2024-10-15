@@ -14,7 +14,7 @@ export function AddAgentModal({
   return (
     <Dialog>
       {type === "from-home" ? (
-        <DialogTrigger className="bg-transparent text-[#F93B1D] border border-[#F93B1D] px-[10px] py-2 rounded-[10px] font-medium text-base gap-[2px] flex items-center">
+        <DialogTrigger className="bg-transparent text-[#F93B1D] border border-[#F93B1D] px-[10px] py-2 rounded-[10px] font-medium text-base gap-[2px] flex items-center max-h-[40px]">
           <AiOutlinePlus /> აგენტის დამატება
         </DialogTrigger>
       ) : (
@@ -30,7 +30,7 @@ export function AddAgentModal({
         </DialogTrigger>
       )}
 
-      <DialogContent className="bg-white min-w-[1009px] max-h-[784px] flex flex-col rounded-[20px] px-[81px] gap-[61px] py-[63px]">
+      <DialogContent className="min-w-full h-full bg-white lg:min-w-[1009px] lg:max-h-[784px] flex flex-col rounded-[20px] px-6 md:px-10 lg:px-[81px] gap-[61px] py-[63px]">
         <h1 className="text-[#021526] font-medium text-[32px] text-center">
           აგენტის დამატება
         </h1>

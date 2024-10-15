@@ -54,8 +54,8 @@ export const AddAgentFormSchema = z.object({
       message: "გამოიყენეთ @redberry.ge ფოსტა",
     }),
   phone_number: z.string()
-    .min(9, "მხოლოდ ციფრები")
-    .regex(/^5\d{8}$/, "ნომერი უნდა იყოს ფორმატით 5XXXXXXXX"),
+    .regex(/^[5]\d{8}$/, "ნომერი უნდა იყოს ფორმატით 5XXXXXXXX")
+    .refine(val => /^\d+$/.test(val), { message: "მხოლოდ ციფრებია ნებადართული" }),
   image: isBrowser
     ? z.union([
         z.instanceof(File).refine(file => file.size > 0 && file.size <= 1000000, {

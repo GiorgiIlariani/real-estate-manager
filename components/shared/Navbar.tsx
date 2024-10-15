@@ -90,7 +90,7 @@ const Navbar = ({ regions }: { regions: RegionTypes[] }) => {
 
   return (
     <div className="wrapper mt-[77px]">
-      <div className="w-full flex justify-between">
+      <div className="w-fit xl:w-full xl:flex flex-none xl:justify-between">
         <Filters
           regions={regions}
           onSelectedRegionsChange={setSelectedRegions}
@@ -98,10 +98,10 @@ const Navbar = ({ regions }: { regions: RegionTypes[] }) => {
           onSelectedAreaChange={setSelectedAreaRange}
           onSelectedBedroomChange={setSelectedBedroomCount}
         />
-        <div className="flex gap-4">
-          <div className="w-full flex justify-end gap-4">
+        <div className="flex gap-4 mt-6 xl:mt-0">
+          <div className="w-full flex justify-start xl:justify-end gap-4">
             <Link href="/add-listing">
-              <Button className="bg-[#F93B1D] text-white border border-[#F93B1D] px-[10px] py-4 rounded-[10px] font-medium text-base gap-[2px]">
+              <Button className="bg-[#F93B1D] text-white border border-[#F93B1D] px-[10px] py-2 rounded-[10px] font-medium text-base gap-[2px] h-10">
                 <AiOutlinePlus />
                 ლისთინგის დამატება
               </Button>

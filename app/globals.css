@@ -12,7 +12,7 @@
 @layer utilities {
   .wrapper {
     /* px-2 md:px-4 py-6 lg:px-6 lg:mx-auto w-full*/
-    @apply w-full max-w-[1596px] mx-auto;
+    @apply w-full max-w-[1596px] mx-auto px-4;
   }
 
   .input-class {

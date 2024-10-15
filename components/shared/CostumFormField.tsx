@@ -50,7 +50,7 @@ const RenderInput = ({
         const base64data = reader.result as string;
         props.setValue("image", base64data); // Store Base64 string instead of the file
         typeof window !== "undefined" &&
-          localStorage.setItem("listingImage", base64data); // Save to localStorage
+          localStorage.setItem("image", base64data); // Save to localStorage
       };
     } else {
       props.setValue("image", null);
@@ -59,7 +59,7 @@ const RenderInput = ({
 
   const handleImageRemove = () => {
     props.setValue("image", null); // Reset the image value to null
-    typeof window !== "undefined" && localStorage.removeItem("listingImage");
+    typeof window !== "undefined" && localStorage.removeItem("image");
   };
 
   switch (props.fieldType) {
@@ -201,7 +201,7 @@ const CustomFormField = (props: CustomProps) => {
     <FormField
       control={control}
       name={name}
-      render={({ field, fieldState }) => (
+      render={({ field }) => (
         <FormItem className="flex-1">
           {props.fieldType !== FormFieldType.RADIO && label && (
             <FormLabel className="font-normal text-black text-base">
@@ -210,7 +210,6 @@ const CustomFormField = (props: CustomProps) => {
           )}
           <RenderInput field={field} props={props} />
 
-          {/* Only render confirmation image if the field type is not FILE or SELECT */}
           {props.fieldType !== FormFieldType.FILE &&
             props.fieldType !== FormFieldType.SELECT &&
             props.fieldType !== FormFieldType.RADIO && (
@@ -219,8 +218,6 @@ const CustomFormField = (props: CustomProps) => {
                   src={
                     props.error
                       ? "/assets/icons/confirm-error.png"
-                      : field.value && fieldState.isTouched
-                      ? "/assets/icons/confirm-success.png"
                       : "/assets/icons/confirm-default.png"
                   }
                   alt="confirm"
@@ -231,11 +228,7 @@ const CustomFormField = (props: CustomProps) => {
                 {props.bottomText ? (
                   <p
                     className={`text-sm font-normal ${
-                      props.error
-                        ? "text-[#F93B1D]"
-                        : field.value && fieldState.isTouched
-                        ? "text-[#45A849]"
-                        : "text-black"
+                      props.error ? "text-[#F93B1D]" : "text-black"
                     }`}>
                     {props.bottomText}
                   </p>

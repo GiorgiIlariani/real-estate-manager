@@ -21,8 +21,7 @@ const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
     (typeof window !== "undefined" && localStorage.getItem("formData")) || "{}"
   );
   const storedImage =
-    (typeof window !== "undefined" && localStorage.getItem("listingImage")) ||
-    null;
+    (typeof window !== "undefined" && localStorage.getItem("image")) || null;
 
   const defaultValues = {
     transactionType: storedFormData.transactionType || "იყიდება",
@@ -135,8 +134,7 @@ const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
         typeof window !== "undefined" && localStorage.removeItem("formData");
         typeof window !== "undefined" &&
           localStorage.removeItem("selectedAgent");
-        typeof window !== "undefined" &&
-          localStorage.removeItem("listingImage");
+        typeof window !== "undefined" && localStorage.removeItem("image");
       }
     } catch (error) {
       console.log(error);
@@ -148,7 +146,7 @@ const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
   const error = form.formState.errors;
 
   return (
-    <div className="w-[790px] mx-auto mt-[62px] mb-[87px]">
+    <div className="w-auto lg:w-[790px] mx-auto mt-[62px] mb-[87px]">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -169,7 +167,7 @@ const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
           {/* მდებარეობა */}
           <section className="flex flex-col gap-[22px]">
             <h4 className="text-base font-normal text-left">მდებარეობა</h4>
-            <div className="flex gap-5">
+            <div className="flex flex-col md:flex-row gap-5">
               <CustomFormField
                 fieldType={FormFieldType.INPUT}
                 control={form.control}
@@ -187,8 +185,8 @@ const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
                 bottomText="მხოლოდ რიცხვები"
               />
             </div>
-            <div className="flex gap-5">
-              <div className="max-w-[385px] flex-1">
+            <div className="flex flex-col md:flex-row gap-5">
+              <div className="w-full lg:max-w-[385px] flex-1">
                 <CustomFormField
                   fieldType={FormFieldType.SELECT}
                   control={form.control}
@@ -234,7 +232,7 @@ const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
           {/* ბინის დეტალები */}
           <section className="flex flex-col gap-[22px]">
             <h4 className="text-base font-normal text-left">ბინის დეტალები</h4>
-            <div className="flex gap-5">
+            <div className="flex flex-col md:flex-row gap-5">
               <CustomFormField
                 fieldType={FormFieldType.INPUT}
                 control={form.control}
@@ -253,7 +251,7 @@ const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
                 bottomText="მხოლოდ რიცხვები"
               />
             </div>
-            <div className="max-w-[385px]">
+            <div className="w-full lg:max-w-[385px] flex-1">
               <CustomFormField
                 fieldType={FormFieldType.INPUT}
                 control={form.control}
@@ -288,7 +286,7 @@ const AddListingForm = ({ cities, regions, agents }: AddListingProps) => {
           {/* აგენტი */}
           <section className="flex flex-col gap-[22px]">
             <h4 className="text-base font-normal text-left">აგენტი</h4>
-            <div className="max-w-[385px] flex flex-col gap-[5px]">
+            <div className="w-full lg:max-w-[385px] flex flex-col gap-[5px]">
               <h5 className="font-medium text-sm">აირჩიე</h5>
               <DropdownMenuComponent
                 agents={agents}

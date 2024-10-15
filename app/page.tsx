@@ -68,8 +68,8 @@ const HomePage = async ({
     <main className="w-full flex flex-col">
       <Navbar regions={regions} />
 
-      <div className="wrapper mt-8 mb-[60px]">
-        <div className="w-full flex flex-wrap gap-4">
+      <div className="mt-8 mb-[60px]">
+        <div className="wrapper flex flex-wrap gap-4">
           {filteredRealEstates.length === 0 ? (
             <div className="text-lg text-[#021526CC] font-normal mt-[65px]">
               აღნიშნული მონაცემებით განცხადება არ იძებნება

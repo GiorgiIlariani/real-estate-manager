@@ -73,7 +73,7 @@ const AddAgentForm = () => {
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col gap-[28px]">
-          <div className="flex gap-5">
+          <div className="flex flex-col md:flex-row gap-5">
             <CustomFormField
               fieldType={FormFieldType.INPUT}
               control={form.control}
@@ -92,7 +92,7 @@ const AddAgentForm = () => {
             />
           </div>
 
-          <div className="flex gap-5">
+          <div className="flex flex-col md:flex-row gap-5">
             <CustomFormField
               fieldType={FormFieldType.INPUT}
               control={form.control}

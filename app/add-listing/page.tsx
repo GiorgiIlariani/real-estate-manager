@@ -12,7 +12,9 @@ const AddListing = async () => {
       <h1 className="text-[#021526] font-medium text-[32px] text-center mt-[62px]">
         ლისთინგის დამატება
       </h1>
-      <AddListingForm cities={cities} regions={regions} agents={agents} />
+      <div className="wrapper">
+        <AddListingForm cities={cities} regions={regions} agents={agents} />
+      </div>
     </main>
   );
 };

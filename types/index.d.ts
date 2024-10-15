@@ -21,6 +21,7 @@ declare interface CustomProps {
     image: string;
   }>;
   onChange?: (value: string) => void; // Add this line for onChange
+  type?: 'agent' | 'listing' | undefined;
 }
 
 declare interface CityTypes {

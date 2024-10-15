@@ -50,7 +50,7 @@ const EachRealEstate = async ({ params }: { params: { id: string } }) => {
       </Link>
 
       <div className="w-full mt-[29px]">
-        <div className="flex gap-[68px]">
+        <div className="flex flex-col xl:flex-row items-center gap-18 lg:gap-[68px]">
           <div className="flex flex-col gap-1 items-end relative">
             <span
               className="absolute bg-[#02152680] text-white p-[6px] rounded-[15px] left-[23px] top-[23px] 
@@ -62,7 +62,7 @@ const EachRealEstate = async ({ params }: { params: { id: string } }) => {
               alt="card image"
               width={839}
               height={670}
-              className="w-[839px] h-[670px] object-cover"
+              className="w-full h-[370px] sm:w-[500px] xl:w-[839px] xl:h-[670px] object-cover"
             />
 
             <p className="text-[#808A93] text-base text-center mt-[14px]">
@@ -127,7 +127,7 @@ const EachRealEstate = async ({ params }: { params: { id: string } }) => {
                     alt="person"
                     width={72}
                     height={72}
-                    className="rounded-[100px]"
+                    className="w-[72px] h-[72px] object-cover rounded-[100px]"
                   />
                   <div className="flex flex-col gap-1">
                     <h5 className="text-base">

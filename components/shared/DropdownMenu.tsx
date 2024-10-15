@@ -48,7 +48,6 @@ const DropdownMenuComponent = ({
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-[385px]">
         <AddAgentModal type="from-addListing" />
-
         {agents.map((agent) => (
           <DropdownMenuItem
             key={agent.id}
